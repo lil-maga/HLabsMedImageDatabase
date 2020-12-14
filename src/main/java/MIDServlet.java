@@ -23,7 +23,7 @@ public class MIDServlet extends HttpServlet {
     MedImage medimg = new MedImage();
         try {
             Statement s=conn.createStatement();
-            String sqlStr = "SELECT * FROM MedicalImages WHERE ScanType = reqBody;";
+            String sqlStr = "SELECT * FROM MedicalImages WHERE ScanType = 'Microscope';";
             ResultSet rset=s.executeQuery(sqlStr);
             while(rset.next()){
                 medimg.setScanType(rset.getString("ScanType"));
