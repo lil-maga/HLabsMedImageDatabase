@@ -6,37 +6,68 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns={"/main"},loadOnStartup = 1)
 public class MIDServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        resp.getWriter().write("Hello, World!");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    Connection conn = connecttoDatabase();
-    String reqBody=req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-    MedImage medimg = new MedImage();
+        Connection conn = connecttoDatabase();
+        Gson gson = new Gson();
+        MedicalImageLibrary Libr = new MedicalImageLibrary();
+        String reqBody=req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        SearchParameters pars = gson.fromJson(reqBody,SearchParameters.class);
         try {
             Statement s=conn.createStatement();
-            String sqlStr = "SELECT * FROM MedicalImages WHERE ScanType = 'Microscope';";
-            ResultSet rset=s.executeQuery(sqlStr);
-            while(rset.next()){
-                medimg.setScanType(rset.getString("ScanType"));
-                medimg.setLocation(rset.getString("Location"));
-                medimg.setBodyPart(rset.getString("BodyPart"));
+            String request = "SELECT * FROM MedImages WHERE modality in ('";
+            String delim = "','";
+            request = request.concat(String.join(delim,(pars.getModality())));
+            request = request.concat("')");
+            request = request.concat(" AND bodyPart in ('");
+            request = request.concat(String.join(delim,(pars.getBodyPart())));
+            request = request.concat("')");
+            //request = request.concat(" AND date BETWEEN'");
+            //request = request.concat(String.join("' AND '",(pars.getDate())));
+            //request = request.concat("'");
+            String part = "";
+            if (String.join(delim,(pars.getPatientID()))==("not null")){
+                part = part.concat(" AND patientid is not null;");
             }
+            else{
+                part = part.concat(" AND patientid is not null;");
+                //part = part.concat(String.join(delim,(pars.getPatientID())));
+                //part = part.concat("';");
+            }
+            request = request.concat(part);
+            String sqlStr = request;
+            System.out.println(request);
+            ResultSet rset=s.executeQuery(sqlStr);
+
+            while(rset.next()){
+                MedImage result = new MedImage();
+                result.setPatientID(rset.getString("patientid"));
+                result.setBodyPart(rset.getString("bodyPart"));
+                result.setModality(rset.getString("modality"));
+                result.setDate(rset.getString("date"));
+                result.setImageURL(rset.getString("imageURL"));
+                Libr.AddNewImage(result);
+            }
+
             rset.close();
             s.close();
             conn.close();
         }
         catch (Exception e){ }
-        resp.setContentType("text/html");
-        resp.getWriter().write(medimg.getBodyPart() + " " +medimg.getScanType() + " " + medimg.getLocation());
+        Gson gson2 = new Gson();
+        String jsonString = gson2.toJson(Libr);
+        resp.setContentType("application/json");
+        resp.getWriter().write(jsonString);
+        System.out.println(jsonString);
     }
 
     public static Connection connecttoDatabase(){
@@ -55,5 +86,3 @@ public class MIDServlet extends HttpServlet {
         return conn;
     }
 }
-
-

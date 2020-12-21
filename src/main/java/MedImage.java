@@ -1,18 +1,26 @@
 import java.io.Serializable;
 
-public class MedImage implements Serializable{
-    protected String ScanType;
-    protected String BodyPart;
-    protected String Location;
+public class MedImage implements Serializable {
     protected String PatientID;
-    protected String DateTime;
+    protected String Modality;
+    protected String BodyPart;
+    protected String Date;
+    protected String ImageURL;
 
-    public String getScanType() {
-        return ScanType;
+    public String getPatientID() {
+        return PatientID;
     }
 
-    public void setScanType(String scanType) {
-        ScanType = scanType;
+    public void setPatientID(String patientID) {
+        PatientID = patientID;
+    }
+
+    public String getModality() {
+        return Modality;
+    }
+
+    public void setModality(String modality) {
+        Modality = modality;
     }
 
     public String getBodyPart() {
@@ -23,27 +31,19 @@ public class MedImage implements Serializable{
         BodyPart = bodyPart;
     }
 
-    public String getLocation() {
-        return Location;
+    public String getDate() {
+        return Date;
     }
 
-    public void setLocation(String location) {
-        Location = location;
+    public void setDate(String date) {
+        Date = date;
     }
 
-    public String getPatientID() {
-        return PatientID;
+    public String getImageURL() {
+        return ImageURL;
     }
 
-    public void setPatientID(String patientID) {
-        PatientID = patientID;
-    }
-
-    public String getDateTime() {
-        return DateTime;
-    }
-
-    public void setDateTime(String dateTime) {
-        DateTime = dateTime;
+    public void setImageURL(String imageURL) {
+        ImageURL = imageURL;
     }
 }
