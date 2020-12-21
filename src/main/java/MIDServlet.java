@@ -24,26 +24,51 @@ public class MIDServlet extends HttpServlet {
         SearchParameters pars = gson.fromJson(reqBody,SearchParameters.class);
         try {
             Statement s=conn.createStatement();
-            String request = "SELECT * FROM MedImages WHERE modality in ('";
             String delim = "','";
-            request = request.concat(String.join(delim,(pars.getModality())));
-            request = request.concat("')");
-            request = request.concat(" AND bodyPart in ('");
-            request = request.concat(String.join(delim,(pars.getBodyPart())));
-            request = request.concat("')");
-            //request = request.concat(" AND date BETWEEN'");
-            //request = request.concat(String.join("' AND '",(pars.getDate())));
-            //request = request.concat("'");
-            String part = "";
-            if (String.join(delim,(pars.getPatientID()))==("not null")){
-                part = part.concat(" AND patientid is not null;");
+            String enddate = pars.getDate()[1];
+
+            String request = "SELECT * FROM MedImages WHERE ";
+
+            if (String.join(delim, pars.getModality()).equals("")){
+                request = request.concat("modality is not null AND ");
             }
             else{
-                part = part.concat(" AND patientid is not null;");
-                //part = part.concat(String.join(delim,(pars.getPatientID())));
-                //part = part.concat("';");
+                request = request.concat("modality in ('");
+                request = request.concat(String.join(delim,(pars.getModality())));
+                request = request.concat("') AND ");
             }
-            request = request.concat(part);
+
+            if (String.join(delim, pars.getBodyPart()).equals("")){
+                request = request.concat("bodyPart is not null AND ");
+            }
+            else{
+                request = request.concat("bodyPart in ('");
+                request = request.concat(String.join(delim,(pars.getBodyPart())));
+                request = request.concat("') AND ");
+            }
+
+            if (String.join("", pars.getDate()).equals("")){
+                request = request.concat("date is not null AND ");
+            }
+            else if(enddate.equals("")){
+                request = request.concat("date >= '");
+                request = request.concat((pars.getDate()[0]));
+                request = request.concat("' AND ");
+            }
+            else{
+                request = request.concat("date BETWEEN '");
+                request = request.concat(String.join("' AND '",(pars.getDate())));
+                request = request.concat("' AND ");
+            }
+
+            if ((pars.getPatientID()).equals("")){
+                request = request.concat("patientid is not null;");
+            }
+            else{
+                request = request.concat("patientid = '");
+                request = request.concat(pars.getPatientID());
+                request = request.concat("';");
+            }
             String sqlStr = request;
             System.out.println(request);
             ResultSet rset=s.executeQuery(sqlStr);
@@ -86,3 +111,5 @@ public class MIDServlet extends HttpServlet {
         return conn;
     }
 }
+
+
