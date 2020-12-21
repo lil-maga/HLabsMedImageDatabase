@@ -25,7 +25,6 @@ public class MIDServlet extends HttpServlet {
         try {
             Statement s=conn.createStatement();
             String delim = "','";
-            String enddate = pars.getDate()[1];
 
             String request = "SELECT * FROM MedImages WHERE ";
 
@@ -50,9 +49,14 @@ public class MIDServlet extends HttpServlet {
             if (String.join("", pars.getDate()).equals("")){
                 request = request.concat("date is not null AND ");
             }
-            else if(enddate.equals("")){
+            else if(pars.getDate()[1].equals("")){
                 request = request.concat("date >= '");
                 request = request.concat((pars.getDate()[0]));
+                request = request.concat("' AND ");
+            }
+            else if(pars.getDate()[0].equals("")){
+                request = request.concat("date <= '");
+                request = request.concat((pars.getDate()[1]));
                 request = request.concat("' AND ");
             }
             else{
