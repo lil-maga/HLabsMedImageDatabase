@@ -1,11 +1,21 @@
 import java.io.Serializable;
 
 public class MedImage implements Serializable {
+    protected int ID;
+    protected String FileName;
     protected String PatientID;
     protected String Modality;
     protected String BodyPart;
     protected String Date;
     protected String ImageURL;
+
+    public int getID() { return ID; }
+
+    public void setID(int ID) { this.ID = ID; }
+
+    public String getFileName() { return FileName; }
+
+    public void setFileName(String fileName) { FileName = fileName;}
 
     public String getPatientID() {
         return PatientID;
@@ -15,9 +25,7 @@ public class MedImage implements Serializable {
         PatientID = patientID;
     }
 
-    public String getModality() {
-        return Modality;
-    }
+    public String getModality() { return Modality; }
 
     public void setModality(String modality) {
         Modality = modality;

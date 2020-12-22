@@ -12,10 +12,6 @@ import java.util.stream.Collectors;
 @WebServlet(urlPatterns={"/main"},loadOnStartup = 1)
 public class MIDServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection conn = connecttoDatabase();
         Gson gson = new Gson();
@@ -79,9 +75,11 @@ public class MIDServlet extends HttpServlet {
 
             while(rset.next()){
                 MedImage result = new MedImage();
+                result.setID(rset.getInt("id"));
+                result.setFileName(rset.getString("fileName"));
                 result.setPatientID(rset.getString("patientid"));
-                result.setBodyPart(rset.getString("bodyPart"));
                 result.setModality(rset.getString("modality"));
+                result.setBodyPart(rset.getString("bodyPart"));
                 result.setDate(rset.getString("date"));
                 result.setImageURL(rset.getString("imageURL"));
                 Libr.AddNewImage(result);
@@ -115,5 +113,3 @@ public class MIDServlet extends HttpServlet {
         return conn;
     }
 }
-
-
