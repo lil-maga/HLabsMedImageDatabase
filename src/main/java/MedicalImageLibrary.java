@@ -12,12 +12,6 @@ public class MedicalImageLibrary implements Serializable {
         Library = library;
     }
 
-    public void Details(){
-        for(int i = 0; i<Library.size(); i++) {
-            System.out.println(Library.get(i).getPatientID());
-        }
-    }
-
     public void AddNewImage(MedImage img){
         Library.add(img);
     }
