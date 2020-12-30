@@ -16,4 +16,16 @@ public class MedicalImageLibrary implements Serializable {
         Library.add(img);
     }
 
+    public Integer getSize(){
+        return Library.size();
+    }
+
+    public boolean isEmpty(){
+        return Library.isEmpty();
+    }
+
+    public MedImage get(int i){
+        return Library.get(i);
+    }
+
 }
