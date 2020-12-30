@@ -1,3 +1,4 @@
+import Entities.MedImage;
 import org.junit.Assert;
 import org.junit.Test;
 

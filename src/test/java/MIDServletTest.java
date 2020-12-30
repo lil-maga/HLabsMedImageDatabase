@@ -25,7 +25,7 @@ public class MIDServletTest {
     @Mock
     HttpServletResponse response;
     @Mock
-    Database db;
+    DatabaseTools.Database db;
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
@@ -39,7 +39,7 @@ public class MIDServletTest {
         when(response.getWriter()).thenReturn(printWriter);
         when(db.doSearch("good")).thenReturn("great");
 
-        MIDServlet myServlet = new MIDServlet();
+        MIDServlets.MIDServlet myServlet = new MIDServlets.MIDServlet();
         myServlet.doPost(request, response);
 
         String output = stringWriter.getBuffer().toString();

@@ -1,7 +1,10 @@
+package DatabaseTools;
+
+import Entities.*;
 import com.google.gson.Gson;
 import java.sql.*;
 
-/* Database Class that contains methods to connect to the database, search the database,
+/* DatabaseTools.Database Class that contains methods to connect to the database, search the database,
 upload to the database, delete from the database and check for a duplicate. It is used
 by servlet classes to access the database and and retrieve or update needed data. */
 
@@ -12,6 +15,8 @@ public class Database {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Driver error.");
         }
         Connection conn = null;
         try {
@@ -83,7 +88,7 @@ public class Database {
             ResultSet rset=s.executeQuery(sqlStr);//SQL statement is executed and results are stored
             //adds the results to a Medical Image Library until all of the results were stored
             while(rset.next()){
-                MedImage result = new MedImage();//creates a MedImage object to store parameters
+                MedImage result = new MedImage();//creates a Entities.MedImage object to store parameters
                 result.setID(rset.getInt("id"));
                 result.setFileName(rset.getString("fileName"));
                 result.setPatientID(rset.getString("patientid"));
@@ -91,14 +96,17 @@ public class Database {
                 result.setBodyPart(rset.getString("bodyPart"));
                 result.setDate(rset.getString("date"));
                 result.setImageURL(rset.getString("imageURL"));
-                Library.AddNewImage(result);//adds a MedImage to the Medical Image Library
+                Library.AddNewImage(result);//adds a Entities.MedImage to the Medical Image Library
             }
             //releases all the objects
             rset.close();
             s.close();
             conn.close();
         }
-        catch (Exception e){ }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("The search function caused an error");
+        }
         Gson gson2 = new Gson();
         String jsonString = gson2.toJson(Library);//changes the Library to jsonString
         return jsonString;//returns a jsonString
@@ -107,10 +115,10 @@ public class Database {
     public void doDelete(String jsonString){
         Gson gson = new Gson();
         Connection conn = ConnectToDatabase();//establishes connection to database
-        MedImage removeImage = gson.fromJson(jsonString,MedImage.class);//converts jsonString to MedImage
+        MedImage removeImage = gson.fromJson(jsonString,MedImage.class);//converts jsonString to Entities.MedImage
         try{
             Statement s=conn.createStatement();//creates a statement
-            //constructs an SQL query to delete an image using MedImage ID
+            //constructs an SQL query to delete an image using Entities.MedImage ID
             String request = "DELETE FROM MedImages WHERE id = ";
             request = request.concat(String.valueOf(removeImage.getID()));
             request = request.concat(";");
@@ -120,7 +128,10 @@ public class Database {
             s.close();
             conn.close();
         }
-        catch (Exception e){ }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("The delete function caused an error");
+        }
         //for unit testing this part is skipped as a separate unit test is designed for this
         if (!removeImage.getImageURL().equals("TestURL")){
             AwsS3 s3 = new AwsS3();
@@ -130,9 +141,10 @@ public class Database {
     }
     //This method uploads the image data to the database using image data as input
     public void doUpload(String jsonString){
-        Connection conn = ConnectToDatabase();//connection to
+        Connection conn = ConnectToDatabase();//establish connection to the database
         Gson gson = new Gson();
-        MedImage newImage = gson.fromJson(jsonString,MedImage.class);
+        MedImage newImage = gson.fromJson(jsonString,MedImage.class);//store the image data in a Entities.MedImage object
+        //Constructs a SQL query to insert a Entities.MedImage object into the database
         try {
             Statement s=conn.createStatement();
             String request = "INSERT INTO MedImages (fileName, patientid, modality, bodyPart, date, imageURL) values ('";
@@ -150,33 +162,37 @@ public class Database {
             request = request.concat("');");
             System.out.println(request);
             String sqlStr = request;
-            s.execute(sqlStr);
-
+            s.execute(sqlStr);//executes the request
+            //releases all the objects
             s.close();
             conn.close();
         }
-        catch (Exception e){ }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("The upload function caused an error");}
     }
-
+    //This method checks if the file name is already being used in the database as a unique
+    //file name is needed for S3 storage
     public boolean checkDuplicate(String fileName){
-        Connection conn = ConnectToDatabase();
+        Connection conn = ConnectToDatabase();//establish a connection to a database
         boolean duplicate = false;
+        //Construct a SQL statement to select all images with the specified file name
         try {
             Statement s = conn.createStatement();
             String search = "SELECT * FROM MedImages WHERE fileName = '";
             search = search.concat(fileName);
             search = search.concat("';");
             String sqlStr = search;
-            System.out.println(search);
-            ResultSet rset = s.executeQuery(sqlStr);
-            duplicate = rset.next();
-            System.out.println(duplicate);
+            ResultSet rset = s.executeQuery(sqlStr);//execute the query
+            duplicate = rset.next();//rset.next() will be non 0 if search gave results
+            //Release all the objects
             rset.close();
             s.close();
             conn.close();
-        } catch (Exception e) { }
-        System.out.println(duplicate);
-        return duplicate;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("The check duplicate function caused an error");}
+        return duplicate;//return a boolean for if there is a duplicate or no
     }
 
 }

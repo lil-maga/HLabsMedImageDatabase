@@ -1,3 +1,5 @@
+package MIDServlets;
+
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.sql.*;
 import java.util.Enumeration;
+import DatabaseTools.*;
 
 /*
  * This servlet demonstrates how to receive file uploaded from the client

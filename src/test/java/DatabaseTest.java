@@ -1,7 +1,10 @@
+import DatabaseTools.Database;
+import Entities.MedImage;
+import Entities.MedicalImageLibrary;
+import Entities.SearchParameters;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import com.google.gson.Gson;
 

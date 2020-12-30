@@ -1,3 +1,4 @@
+import Entities.SearchParameters;
 import org.junit.Assert;
 import org.junit.Test;
 

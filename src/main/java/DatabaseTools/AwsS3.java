@@ -1,3 +1,5 @@
+package DatabaseTools;
+
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -39,7 +41,7 @@ public class AwsS3 {
 
 
     //Upload Image, return its url
-    URL UploadImage(String filepath){
+    public URL UploadImage(String filepath){
         //String bucketName="logfire";
         URL S3ImageUrl;
         String S3fileKey; // Name of the file at the end of filepath

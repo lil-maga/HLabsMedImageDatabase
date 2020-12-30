@@ -3,18 +3,14 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-import org.junit.Assert;
+import DatabaseTools.AwsS3;
 
 import java.io.File;
-import java.net.URL;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CopyObjectResult;
-import com.amazonaws.services.s3.model.DeleteObjectsRequest;
-import com.amazonaws.services.s3.model.DeleteObjectsResult;
 import com.amazonaws.services.s3.model.PutObjectResult;
 
 public class FinalS3TestClass {
