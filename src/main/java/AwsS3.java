@@ -52,7 +52,6 @@ public class AwsS3 {
     }
 
     void DeleteImage(String fileName){
-        //String bucketName="logfire";//change to one later
         /* Reference №   :https://docs.aws.amazon.com/AmazonS3/latest/dev/DeletingOneObjectUsingJava.html */
         try {
             s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
@@ -65,7 +64,6 @@ public class AwsS3 {
             // couldn't parse the response from Amazon S3.
             e.printStackTrace();
         }
-
          /* end of Reference №  */
     }
 }
