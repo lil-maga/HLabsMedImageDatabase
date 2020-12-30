@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-@WebServlet(urlPatterns={"/main"},loadOnStartup = 1)
+@WebServlet(urlPatterns={"/search"},loadOnStartup = 1)
 public class MIDServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

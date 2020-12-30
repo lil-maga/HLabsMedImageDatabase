@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 
 import java.io.File;
 import java.net.URL;
@@ -19,7 +20,13 @@ public class AwsS3 {
     private static final String bucketName = "codeimperial-mib";
 
     //Constructor, creates an s3client to access s3
-    public AwsS3() {
+    public AwsS3(AmazonS3 S3client) {
+
+        //BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAIRWPMLSTFDRKQBOQ", "pnyqcLq3wxH2Vz/04WevSECtqhd9HBkRqLU+uVlE");
+        this.s3Client = S3client;
+    }
+
+    public AwsS3() { //original constructor
 
         //BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAIRWPMLSTFDRKQBOQ", "pnyqcLq3wxH2Vz/04WevSECtqhd9HBkRqLU+uVlE");
         s3Client = AmazonS3ClientBuilder
@@ -29,6 +36,7 @@ public class AwsS3 {
                 .withCredentials(new EnvironmentVariableCredentialsProvider())
                 .build();
     }
+
 
     //Upload Image, return its url
     URL UploadImage(String filepath){
@@ -68,4 +76,17 @@ public class AwsS3 {
 
          /* end of Reference №  */
     }
+///////////////////////////////////////////////
+    //For tests:
+
+    //uploading object general method - to be tested
+    public PutObjectResult putObject(String bucketName, String key, File file) {
+        return s3Client.putObject(bucketName, key, file);
+    }
+
+    //deleting an object general method - to be tested
+    public void deleteObject(String bucketName, String objectKey) {
+        s3Client.deleteObject(bucketName, objectKey);
+    }
+
 }
