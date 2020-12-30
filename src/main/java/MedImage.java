@@ -1,5 +1,5 @@
 import java.io.Serializable;
-
+/*    */
 public class MedImage implements Serializable {
     protected int ID;
     protected String FileName;

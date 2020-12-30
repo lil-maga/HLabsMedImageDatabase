@@ -9,18 +9,21 @@ public class TestSearchParameters {
         par.setPatientID(id);
         Assert.assertEquals(par.getPatientID(),id);
     }
+    @Test
     public void testModalityAssign(){
         SearchParameters par=new SearchParameters();
         String[] mod={"ct","mri"};
         par.setModality(mod);
         Assert.assertEquals(par.getModality(),mod);
     }
+    @Test
     public void testBodyPartAssign(){
         SearchParameters par=new SearchParameters();
         String[] body={"leg","arm"};
         par.setBodyPart(body);
         Assert.assertEquals(par.getBodyPart(),body);
     }
+    @Test
     public void testDateAssign(){
         SearchParameters par=new SearchParameters();
         String[] date={"today","yesterday"};
