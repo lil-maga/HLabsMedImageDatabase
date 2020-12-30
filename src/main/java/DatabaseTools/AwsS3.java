@@ -37,7 +37,7 @@ public class AwsS3 {
 
 
     //Upload Image to s3, return its url
-    URL UploadImage(String filepath){
+    public URL UploadImage(String filepath){
 
         URL S3ImageUrl;
         String S3fileKey; // Name of the file at the end of filepath
@@ -59,7 +59,7 @@ public class AwsS3 {
     }
 
     //Deletes an image from s3
-    void DeleteImage(String fileName){
+    public void DeleteImage(String fileName){
 
         /* Reference №   :https://docs.aws.amazon.com/AmazonS3/latest/dev/DeletingOneObjectUsingJava.html */
         try {
