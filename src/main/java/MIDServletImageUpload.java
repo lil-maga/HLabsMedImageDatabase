@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.sql.*;
 import java.util.Enumeration;
 
 /*
@@ -24,7 +27,7 @@ public class MIDServletImageUpload extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
-
+        Connection conn = connecttoDatabase();
         // Gets file name for HTTP header
         String fileName = request.getHeader("fileName");
 
@@ -38,6 +41,27 @@ public class MIDServletImageUpload extends HttpServlet {
             System.out.println(headerName + " = " + request.getHeader(headerName));
         }
         System.out.println("===== End headers =====\n");
+        try {
+            Statement s = conn.createStatement();
+
+            String search = "SELECT * FROM MedImages WHERE fileName = '";
+            search = search.concat(fileName);
+            search = search.concat("';");
+            String sqlStr = search;
+            System.out.println(search);
+            ResultSet rset = s.executeQuery(sqlStr);
+            if (rset.next()){
+                response.setContentType("html/text");
+                response.getWriter().write("Duplicate file");
+                rset.close();
+                s.close();
+                conn.close();
+                return;
+            }
+            rset.close();
+            s.close();
+            conn.close();
+        } catch (Exception e) { }
 
         // opens input stream of the request for reading data
         InputStream inputStream = request.getInputStream();
@@ -68,5 +92,21 @@ public class MIDServletImageUpload extends HttpServlet {
 
         response.setContentType("html/text");
         response.getWriter().write(String.valueOf(images3url));
+    }
+
+    public static Connection connecttoDatabase(){
+        String dbUrl = "jdbc:postgresql://ec2-54-170-123-247.eu-west-1.compute.amazonaws.com:5432/d54rjscdsauvis";
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (Exception e) {
+        }
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(dbUrl, "yzsxiugbvxboxx","e4b0b4171911f0f435a274c51f6c037217cba861ffdc3f098feb75bfd00bd77d");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return conn;
     }
 }
