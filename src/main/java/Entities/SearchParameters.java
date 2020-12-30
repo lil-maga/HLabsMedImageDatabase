@@ -1,11 +1,13 @@
 package Entities;
 
+//Class that stores the search parameters received from the client
 public class SearchParameters {
     protected String PatientID;
     protected String Modality[];
     protected String BodyPart[];
     protected String Date[];
 
+    //Getters and setters for the different variables
     public String getPatientID() {
         return PatientID;
     }

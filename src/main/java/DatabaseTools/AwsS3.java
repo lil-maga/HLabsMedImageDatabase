@@ -15,22 +15,18 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+// Class that handles connection to Aws S3
 public class AwsS3 {
 
     private AmazonS3 s3Client;
     private static final String bucketName = "codeimperial-mib";
 
-    //Constructor, creates an s3client to access s3
+    //Constructor1
     public AwsS3(AmazonS3 S3client) {
-
-        //BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAIRWPMLSTFDRKQBOQ", "pnyqcLq3wxH2Vz/04WevSECtqhd9HBkRqLU+uVlE");
         this.s3Client = S3client;
     }
-
-    public AwsS3() { //original constructor
-
-        //BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAIRWPMLSTFDRKQBOQ", "pnyqcLq3wxH2Vz/04WevSECtqhd9HBkRqLU+uVlE");
+    //Constructor2
+    public AwsS3() {
         s3Client = AmazonS3ClientBuilder
                 .standard()
                 .withRegion("eu-west-2")
@@ -40,16 +36,16 @@ public class AwsS3 {
     }
 
 
-    //Upload Image, return its url
-    public URL UploadImage(String filepath){
-        //String bucketName="logfire";
+    //Upload Image to s3, return its url
+    URL UploadImage(String filepath){
+
         URL S3ImageUrl;
         String S3fileKey; // Name of the file at the end of filepath
         Path path = Paths.get(filepath);
         Path fileName=path.getFileName();
         S3fileKey=fileName.toString();
         File f = new File(filepath);
-
+        /* Reference №   :https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadObjSingleOpJava.html */
         try {
             PutObjectRequest request = new PutObjectRequest(bucketName, S3fileKey, f);
             s3Client.putObject(request);
@@ -58,10 +54,13 @@ public class AwsS3 {
         } catch (SdkClientException e) {
             e.printStackTrace();
         }
+        /* end of Reference №  */
         return S3ImageUrl=s3Client.getUrl(bucketName, S3fileKey);
     }
 
+    //Deletes an image from s3
     void DeleteImage(String fileName){
+
         /* Reference №   :https://docs.aws.amazon.com/AmazonS3/latest/dev/DeletingOneObjectUsingJava.html */
         try {
             s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
@@ -74,10 +73,11 @@ public class AwsS3 {
             // couldn't parse the response from Amazon S3.
             e.printStackTrace();
         }
+
          /* end of Reference №  */
     }
-///////////////////////////////////////////////
-    //For tests:
+    ///////////////////////////////////////////////
+    //Classes for tests:
 
     //uploading object general method - to be tested
     public PutObjectResult putObject(String bucketName, String key, File file) {

@@ -1,7 +1,7 @@
 package Entities;
 
 import java.io.Serializable;
-/*    */
+//Class that stores individual medical images parameters
 public class MedImage implements Serializable {
     protected int ID;
     protected String FileName;
@@ -11,6 +11,7 @@ public class MedImage implements Serializable {
     protected String Date;
     protected String ImageURL;
 
+    //Getters and setters for the different variables
     public int getID() { return ID; }
 
     public void setID(int ID) { this.ID = ID; }
@@ -19,13 +20,9 @@ public class MedImage implements Serializable {
 
     public void setFileName(String fileName) { FileName = fileName;}
 
-    public String getPatientID() {
-        return PatientID;
-    }
+    public String getPatientID() { return PatientID; }
 
-    public void setPatientID(String patientID) {
-        PatientID = patientID;
-    }
+    public void setPatientID(String patientID) { PatientID = patientID; }
 
     public String getModality() { return Modality; }
 
