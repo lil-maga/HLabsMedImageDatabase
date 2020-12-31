@@ -1,6 +1,5 @@
 package MIDServlets;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,14 +10,13 @@ import java.util.stream.Collectors;
 import DatabaseTools.*;
 
 @WebServlet(urlPatterns={"/search"},loadOnStartup = 1)
-public class MIDServlet extends HttpServlet {
+public class MIDServletSearch extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Database postgres = new Database();
         String reqBody=req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         String jsonString = postgres.doSearch(reqBody);
         resp.setContentType("application/json");
         resp.getWriter().write(jsonString);
-        System.out.println(jsonString);
     }
 }

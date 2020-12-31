@@ -12,7 +12,7 @@ import DatabaseTools.*;
 @WebServlet(urlPatterns={"/delete"},loadOnStartup = 1)
 public class MIDServletDelete extends HttpServlet {
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Database DB = new Database();
         String reqBody=req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         DB.doDelete(reqBody);

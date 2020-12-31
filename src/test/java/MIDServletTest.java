@@ -1,50 +1,65 @@
+import Entities.*;
+import DatabaseTools.*;
+import MIDServlets.MIDServletSearch;
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 
 public class MIDServletTest {
-    /*@Mock
+
+    @Mock
     HttpServletRequest request;
     @Mock
     HttpServletResponse response;
-    @Mock
-    DatabaseTools.Database db;
+
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
-
     }
+
     @Test
     public void TestDoPost() throws IOException, ServletException {
+        SearchParameters testParams = new SearchParameters();
+        testParams.setBodyPart(new String[]{""});
+        testParams.setModality(new String[]{""});
+        testParams.setDate(new String[]{"",""});
+        testParams.setPatientID("");
+        Database db = new Database();
+
+        Gson gson = new Gson();
+
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
-        when(request.getReader().lines().collect(Collectors.joining(System.lineSeparator()))).thenReturn();
-        when(response.getWriter()).thenReturn(printWriter);
-        when(db.doSearch("good")).thenReturn("great");
 
-        MIDServlets.MIDServlet myServlet = new MIDServlets.MIDServlet();
+        Stream<String> stream = Stream.of(gson.toJson(testParams));
+
+        BufferedReader reader = Mockito.mock(BufferedReader.class);
+        when(reader.lines()).thenReturn(stream);
+
+        when(request.getReader()).thenReturn(reader);
+        when(response.getWriter()).thenReturn(printWriter);
+
+        MIDServletSearch myServlet = new MIDServletSearch();
         myServlet.doPost(request, response);
 
         String output = stringWriter.getBuffer().toString();
-        Assert.assertThat(response.getContentType(),is(equalTo("application/json")));
-        Assert.assertThat(output, is(equalTo("great")));
+        Assert.assertThat(output, is(db.doSearch(gson.toJson(testParams))));
     }
-*/
 }

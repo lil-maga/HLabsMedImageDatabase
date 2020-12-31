@@ -28,7 +28,7 @@ public class MIDServletImageUpload extends HttpServlet {
     static final int BUFFER_SIZE = 4096;
 
     @Override
-    protected void doPost(HttpServletRequest request,
+    public void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
         Database DB = new Database();
         // Gets file name for HTTP header

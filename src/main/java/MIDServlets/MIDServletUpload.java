@@ -12,7 +12,7 @@ import DatabaseTools.*;
 @WebServlet(urlPatterns={"/upload"},loadOnStartup = 1)
 public class MIDServletUpload extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Database DB = new Database();
         String reqBody=req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         DB.doUpload(reqBody);

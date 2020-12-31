@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>DatabaseTools</OriginalElement>
+  <nodes>
+    <node x="22.875" y="1114.0">MIDServlets.MIDServletImageUpload</node>
+    <node x="976.0714285714286" y="545.0">Entities.SearchParameters</node>
+    <node x="650.0714285714286" y="600.0">Entities.MedicalImageLibrary</node>
+    <node x="734.75" y="902.0">DatabaseTools.Database</node>
+    <node x="806.5714285714286" y="0.0">Entities.MedImage</node>
+    <node x="0.0" y="588.5">DatabaseTools.AwsS3</node>
+    <node x="1298.875" y="1125.5">MIDServlets.MIDServletUpload</node>
+    <node x="877.875" y="1125.5">MIDServlets.MIDServletSearch</node>
+    <node x="443.875" y="1125.5">MIDServlets.MIDServletDelete</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="DatabaseTools.Database" target="Entities.SearchParameters">
+      <point x="112.71428571428567" y="-71.0" />
+      <point x="978.9642857142857" y="882.0" />
+      <point x="1084.0714285714284" y="882.0" />
+      <point x="0.0" y="148.5" />
+    </edge>
+    <edge source="DatabaseTools.Database" target="Entities.MedImage">
+      <point x="75.14285714285711" y="-71.0" />
+      <point x="941.3928571428571" y="882.0" />
+      <point x="965.5714285714286" y="882.0" />
+      <point x="965.5714285714286" y="520.0" />
+      <point x="992.0714285714286" y="520.0" />
+      <point x="79.5" y="247.5" />
+    </edge>
+    <edge source="MIDServlets.MIDServletSearch" target="DatabaseTools.Database">
+      <point x="-100.25" y="-27.0" />
+      <point x="978.125" y="1094.0" />
+      <point x="882.6875" y="1094.0" />
+      <point x="16.4375" y="71.0" />
+    </edge>
+    <edge source="Entities.MedicalImageLibrary" target="Entities.MedImage">
+      <point x="-73.5" y="-93.5" />
+      <point x="723.5714285714286" y="520.0" />
+      <point x="833.0714285714286" y="520.0" />
+      <point x="-79.5" y="247.5" />
+    </edge>
+    <edge source="DatabaseTools.Database" target="Entities.MedicalImageLibrary">
+      <point x="-37.571428571428555" y="-71.0" />
+      <point x="828.6785714285714" y="862.0" />
+      <point x="723.5714285714286" y="862.0" />
+      <point x="-73.5" y="93.5" />
+    </edge>
+    <edge source="MIDServlets.MIDServletUpload" target="DatabaseTools.Database">
+      <point x="-100.25" y="-27.0" />
+      <point x="1399.125" y="1074.0" />
+      <point x="948.4375" y="1074.0" />
+      <point x="82.1875" y="71.0" />
+    </edge>
+    <edge source="DatabaseTools.Database" target="DatabaseTools.AwsS3">
+      <point x="-112.71428571428578" y="-71.0" />
+      <point x="753.5357142857142" y="882.0" />
+      <point x="214.375" y="882.0" />
+      <point x="42.875" y="105.0" />
+    </edge>
+    <edge source="MIDServlets.MIDServletImageUpload" target="DatabaseTools.AwsS3">
+      <point x="-50.125" y="-38.5" />
+      <point x="173.25" y="1094.0" />
+      <point x="128.625" y="1094.0" />
+      <point x="-42.875" y="105.0" />
+    </edge>
+    <edge source="MIDServlets.MIDServletImageUpload" target="DatabaseTools.Database">
+      <point x="50.125" y="-38.5" />
+      <point x="273.5" y="1064.0" />
+      <point x="751.1875" y="1064.0" />
+      <point x="-115.0625" y="71.0" />
+    </edge>
+    <edge source="MIDServlets.MIDServletDelete" target="DatabaseTools.Database">
+      <point x="-103.5" y="-27.0" />
+      <point x="547.375" y="1084.0" />
+      <point x="816.9375" y="1084.0" />
+      <point x="-49.3125" y="71.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7208509506957146" x="713.085127392088" y="450.17479967316564" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
