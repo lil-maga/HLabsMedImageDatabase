@@ -4,7 +4,7 @@ import Entities.*;
 import com.google.gson.Gson;
 import java.sql.*;
 
-/* DatabaseTools.Database Class that contains methods to connect to the database, search the database,
+/* Database Class contains methods to connect to the database, search the database,
 upload to the database, delete from the database and check for a duplicate. It is used
 by servlet classes to access the database and and retrieve or update needed data. */
 

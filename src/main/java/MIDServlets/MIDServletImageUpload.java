@@ -25,6 +25,7 @@ import DatabaseTools.*;
 
 @WebServlet(urlPatterns={"/uploadimage"},loadOnStartup = 1)
 public class MIDServletImageUpload extends HttpServlet {
+    // Reference №3 - https://www.codejava.net/java-ee/servlet/upload-file-to-servlet-without-using-html-form
     static final int BUFFER_SIZE = 4096;
 
     @Override
@@ -43,7 +44,7 @@ public class MIDServletImageUpload extends HttpServlet {
             System.out.println(headerName + " = " + request.getHeader(headerName));
         }
         System.out.println("===== End headers =====\n");
-
+        //this code was added by us to check for duplicate file name as unique file names are required for S3
         if (DB.checkDuplicate(fileName)) {
             response.setContentType("html/text");
             response.getWriter().write("Duplicate file");
@@ -68,7 +69,7 @@ public class MIDServletImageUpload extends HttpServlet {
 
             System.out.println("File written to: " + saveFile.getAbsolutePath());
 
-            //Upload that image to cloud
+            //Upload that image to cloud(CODE ADDED BY US)
             System.out.println("Now uploading image to S3");
             AwsS3 s3 = new AwsS3();
             URL images3url = s3.UploadImage(fileName);
@@ -79,4 +80,5 @@ public class MIDServletImageUpload extends HttpServlet {
             response.getWriter().write(String.valueOf(images3url));
         }
     }
+    // end of Reference № 3
 }

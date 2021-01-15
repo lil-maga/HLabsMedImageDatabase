@@ -19,15 +19,15 @@ public class MedicalImageLibrary implements Serializable {
     public void AddNewImage(MedImage img){
         Library.add(img);
     }
-
+    //Method to get size of the medical image library
     public Integer getSize(){
         return Library.size();
     }
-
+    //Method to check if the Medical Image library is empty
     public boolean isEmpty(){
         return Library.isEmpty();
     }
-
+    //Method to retrieve a certain entry from the Medical Image Library
     public MedImage get(int i){
         return Library.get(i);
     }

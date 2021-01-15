@@ -14,16 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
 
-
+/* Test for the communication between client and servlet. The test was designed for MIDServletSearch class,
+   but other servlet classes follow the same communication method and only difference is the database method
+   called in them.
+ */
 public class MIDServletTest {
-
+    //Mocks the request and response of the servlet
     @Mock
     HttpServletRequest request;
     @Mock
@@ -36,6 +37,7 @@ public class MIDServletTest {
 
     @Test
     public void TestDoPost() throws IOException, ServletException {
+        //Create the search parameters to search for all the entries
         SearchParameters testParams = new SearchParameters();
         testParams.setBodyPart(new String[]{""});
         testParams.setModality(new String[]{""});
@@ -56,10 +58,11 @@ public class MIDServletTest {
         when(request.getReader()).thenReturn(reader);
         when(response.getWriter()).thenReturn(printWriter);
 
-        MIDServletSearch myServlet = new MIDServletSearch();
-        myServlet.doPost(request, response);
+        MIDServletSearch myServlet = new MIDServletSearch();//creates an instance of MIDServlet class
+        myServlet.doPost(request, response);//passes the mocked request and mocked response
 
         String output = stringWriter.getBuffer().toString();
+        //checks that the response is equal to the search result with the test parameters
         Assert.assertThat(output, is(db.doSearch(gson.toJson(testParams))));
     }
 }

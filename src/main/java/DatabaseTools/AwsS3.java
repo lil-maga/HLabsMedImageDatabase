@@ -2,8 +2,6 @@ package DatabaseTools;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -30,7 +28,6 @@ public class AwsS3 {
         s3Client = AmazonS3ClientBuilder
                 .standard()
                 .withRegion("eu-west-2")
-                //.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .withCredentials(new EnvironmentVariableCredentialsProvider())
                 .build();
     }
@@ -45,7 +42,7 @@ public class AwsS3 {
         Path fileName=path.getFileName();
         S3fileKey=fileName.toString();
         File f = new File(filepath);
-        /* Reference №   :https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadObjSingleOpJava.html */
+        /* Reference № 1  :https://docs.aws.amazon.com/AmazonS3/latest/dev/UploadObjSingleOpJava.html */
         try {
             PutObjectRequest request = new PutObjectRequest(bucketName, S3fileKey, f);
             s3Client.putObject(request);
@@ -54,14 +51,14 @@ public class AwsS3 {
         } catch (SdkClientException e) {
             e.printStackTrace();
         }
-        /* end of Reference №  */
+        /* end of Reference № 1 */
         return S3ImageUrl=s3Client.getUrl(bucketName, S3fileKey);
     }
 
     //Deletes an image from s3
     public void DeleteImage(String fileName){
 
-        /* Reference №   :https://docs.aws.amazon.com/AmazonS3/latest/dev/DeletingOneObjectUsingJava.html */
+        /* Reference № 2  :https://docs.aws.amazon.com/AmazonS3/latest/dev/DeletingOneObjectUsingJava.html */
         try {
             s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
         } catch (AmazonServiceException e) {
@@ -74,7 +71,7 @@ public class AwsS3 {
             e.printStackTrace();
         }
 
-         /* end of Reference №  */
+         /* end of Reference № 2 */
     }
     ///////////////////////////////////////////////
     //Classes for tests:
